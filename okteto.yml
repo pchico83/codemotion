@@ -6,3 +6,5 @@ command:
   - hello.Application
 mountpath: /app/classes
 subpath: target/classes
+forward:
+  - 8080:8080
