@@ -1,0 +1,8 @@
+name: hello
+command:
+  - java
+  - -cp
+  - /app/resources:/app/classes:/app/libs/*
+  - hello.Application
+mountpath: /app/classes
+subpath: target/classes

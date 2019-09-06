@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+    id 'com.google.cloud.tools.jib' version '1.4.0' //try 1.5.1
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+jib.from.image = 'gcr.io/distroless/java:debug' //TODO: remove debug, it allows sh
+jib.to.image = 'pchico83/jib:latest'
+
+configurations {
+    dev
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    // end::actuator[]
+    // tag::tests[]
+    dev("org.springframework.boot:spring-boot-devtools")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    // end::tests[]
+}
+
+bootRun {
+    classpath = sourceSets.main.runtimeClasspath + configurations.dev
+}
